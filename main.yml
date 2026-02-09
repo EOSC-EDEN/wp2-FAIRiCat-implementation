@@ -1,0 +1,66 @@
+- name: Info
+  debug:
+    msg: '====== START: Add FAIRiCat support ======'
+
+- set_fact:
+    web_root_dir: /var/www/html
+    fairicat_directory: .well-known/api-catalog
+    sitemap_file: sitemap.xml
+
+# Note about the sitemap file location:
+# > 50.000 datasets
+# sitemap file: sitemap_index.xml
+# <= 50.000 datasets
+# sitemap file: sitemap.xml
+  
+- name: "Create FAIRiCat directory under web root: {{ web_root_dir }}/{{ fairicat_directory }}"
+  file:
+    path: '{{ web_root_dir }}/{{ fairicat_directory }}'
+    state: directory
+    mode: '0755'
+
+- name: Copy (templated) FAIRiCat file 
+  template:
+      src: 'index.json.j2'
+      dest: '{{ web_root_dir }}/{{ fairicat_directory }}/index.json'
+      owner: root
+      group: "funcadmin"
+      mode: '0644'
+
+# Note that the leading '.' needed to be escaped in the ProxyPassMatch!
+- name: Add FAIRiCat support to Apache configuration
+  blockinfile:
+    path: /etc/httpd/conf.d/{{ shared_hostname }}.conf
+    marker: "# {mark} FAIRiCat support"
+    block: |
+      ProxyPassMatch ^/\.well-known/api-catalog !
+      Alias /{{ fairicat_directory }} /var/www/html/{{ fairicat_directory }}/index.json
+      <Directory {{ web_root_dir }}/{{ fairicat_directory }}>
+         Require all granted
+         DirectoryIndex index.json
+         Header set Link '<https://{{ shared_hostname }}/{{ fairicat_directory }}>; rel="api-catalog"; type="linkset+json"; profile="https://signposting.org/FAIRiCat/"'
+         <Files "index.json">
+            ForceType application/linkset+json
+         </Files>
+      </Directory>
+    insertbefore: '^.*If none of the above apply.*$'
+
+- name: Ensure Apache configuration is valid
+  command: apachectl configtest
+  register: apache_config_test
+  failed_when: apache_config_test.rc != 0
+
+- name: Fail if Apache configuration test failed
+  fail:
+    msg: "Apache configuration test failed: {{ apache_config_test.stderr }}"
+  when: apache_config_test.rc != 0
+
+- name: Ensure Apache is reloaded
+  service:
+    name: httpd
+    state: reloaded
+
+- name: Info
+  debug:
+    msg: '====== END: Add FAIRiCat support ======'
+    
