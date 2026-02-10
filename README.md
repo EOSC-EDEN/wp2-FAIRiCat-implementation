@@ -27,7 +27,7 @@ The 'Linkset' Links
 The JSON fragments shown here are mainly based on the example in the FAIRiCat webpage. The repository used as example is our DANS archive at `https://ssh.datastations.nl`. 
 
 
-## OAI-PMH
+### OAI-PMH
 
 This is the first example that FAIRiCat mentions and for a good reason. 
 For this 'Link' we need to know the URL of the Repository, Dataverse in our case. This is `/oai`, so not `oai-pmh`. The JSON fragment for our SSH archive looks like this: 
@@ -54,7 +54,7 @@ For this 'Link' we need to know the URL of the Repository, Dataverse in our case
 This shows that discovery of the OAI-PMH can be done by inspecting all the 'service-doc' items and look for the `https://www.openarchives.org/OAI/openarchivesprotocol.html`. Assuming every FAIRiCat implementing repository would use that for their OAI Link. The `service-meta` does not add much, `verb=Identify` is part of the OAI standard, but when unaware of the OAI standard it will give you some extra information. 
 
 
-## Sitemap
+### Sitemap
 
 Most repositories will have this in place in order to improve the efficiency of search engine 'crawlers'. Our Dataverse archive support this, so we can add it as a Link: 
 
@@ -75,7 +75,7 @@ Most repositories will have this in place in order to improve the efficiency of 
 Without FAIRiCat, discovery of the sitemap would be done by looking for `/sitemap.xml` and `/sitemap/sitemap.xml`. Alternatively one could look into the `robots.txt`, as described further on. Although it does not seem to be an essential addition, we want to make our FAIRiCat as complete as simply possible. 
 
 
-## OpenAPI
+### OpenAPI
 
 This is important, if you happen to have this (maybe even for multiple APIs) you should definitely add it. The only other way to discover these is via reading the repository systems documentation or code. Alternatively, one could try to find links via a search engine and or ask an AI. 
 Dataverse fortunately exposes it's API (not certain if it is complete) at `/openapi`. 
@@ -103,7 +103,7 @@ Dataverse fortunately exposes it's API (not certain if it is complete) at `/open
 Note the version number in that specification, this did change with the Dataverse upgrades. It is therefore advisable to check this number in the openapi (yml) service description after upgrading the application that implements the API. This could be automated because it is part of the OpenAPI specification. 
 
 
-## Robots.txt
+### Robots.txt
 
 Most repositories will have this in place, just like with the sitemap it could improve the efficiency of search engine 'crawlers' and lessen the burden of that crawling on your service. Probably the `robots.txt` file will have a reference to the sitemap, so crawlers could find the sitemap via the robots.txt. Having the `robots.txt` at the site root is pretty standard, but not mandatory. 
 
@@ -121,7 +121,7 @@ Most repositories will have this in place, just like with the sitemap it could i
 ```
 
 
-## File formats
+### File formats
 
 The 'File formats' information should clarify what types of files (mime-type) are allowed and or preferred or recommended. We identified that this information is important for potential depositors to select an repository. 
 As far as I know there is no standard for this kind of curation information. Therefore we are stuck with human readable information like HTML pages and or PDF documents. 
@@ -144,7 +144,7 @@ Hopefully the site maintenance team respect the wish to have this URL semi-persi
 Because there is no standard, it is not straightforward for a harvester of the FAIRiCat catalog to automatically detect the 'File format' information without prior information on how to detect it.  
 
 
-## Licenses
+### Licenses
 
 The 'License' information should specify what licenses the archive supports. 
 As with the file formats, potential depositors could use this to select a repository. 
@@ -185,7 +185,7 @@ Some practical issues and limitations encountered during the implementation of F
 As a side effect of this work; by implementing FAIRiCat we are forced to discover the services that we have, and might not always be much aware of. One could even imagine that we have some kind of 'health' check that looks at all the 'anchors' to see if everything is up and running. 
 
 
-## Possible improvements
+### Possible improvements
 
 Observations and suggestions for improvement.
 
@@ -203,7 +203,7 @@ Appendix
 To make that JSON available the server must be configured. This appendix tries to explain how this was done on our (DANS) Dataverse archive system server. 
 
 
-## Automated (ansible) configuration
+### Automated (ansible) configuration
 
 As an example the template file (Jinja2) and Ansible code fragments that we use to deploy it are provided. 
 The main ansible task is in file `main.yml` and the template in `index.json.j2`. 
@@ -214,13 +214,13 @@ You can find the Ansible task file [main.yml](ansible/main.yml) and the Jinja2 t
 __NOTE__ at the time of writing FAIRiCat support is not in production yet!
 
 
-## Configuration details
+### Configuration details
 
 For those that are not familiar with Ansible code or want to try out some implementation directly, this section provides information on how to use the commandline. 
 The next description, therefore, assumes you have access (and permissions) to the web server with your archival system on it. 
 
 The Apache httpd service that we use on our archival system (with Dataverse and Payara) has a web root directory from where it will serve web content. Any HTML file placed there can in principle be made available via the web service. 
-For getting the 'well known uri' approach working we create a directory with a SON file in it. 
+For getting the 'well known uri' approach working we create a directory with a JSON file in it. 
 In our case we have the web root at `/var/www/html`. 
 
 ```
