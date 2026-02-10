@@ -178,9 +178,9 @@ Issues
 
 Some practical issues and limitations encountered during the implementation of FAIRiCat.  
 
-- When trying to imagine how 'harvesting' systems are going to use that FAIRiCat information to discover the services some limitation become apparent. When there is no specification for the information at the link (anchor URL), then there is no easy way to automate the discovery. We have this problem with the 'File format' and 'Licenses' information. 
+- When trying to imagine how 'harvesting' systems are going to use that FAIRiCat information to discover the services some limitation become apparent. When there is no specification for the information at the link (description for the anchor URL), then there is no easy way to automate the discovery. We have this problem with the 'File format' and 'Licenses' information. 
 
-- Some Links are not as sable as we would like them to be; the 'File formats' again, but also the OpenAPI service description, which has a version number in the URL. Then there is that Sitemap that has a different filename depending on the number of datasets (research objects) in our archive. 
+- Some Links are not as stable as we would like them to be; the 'File formats' again, but also the OpenAPI service description, which has a version number in the URL. Then there is that Sitemap that has a different filename depending on the number of datasets (research objects) in our archive. 
 
 As a side effect of this work; by implementing FAIRiCat we are forced to discover the services that we have, and might not always be much aware of. One could even imagine that we have some kind of 'health' check that looks at all the 'anchors' to see if everything is up and running. 
 
@@ -194,6 +194,7 @@ Observations and suggestions for improvement.
 
  - We could add 'Links' to other formats, like DCAT-AP, which also describe the services of the repository. Possibly that format improves the automatic discovery. 
 
+- Not an improvement, but merely an observation. Full automated discovery of specific services might not be possible, but FAIRiCat will support semi-automatic discovery. As an example, a harvesting system could retrieve those links (from that Linkset) and then have a human determine what each link is about; is it 'Licensing' or 'File format' for instance. 
 
  
 Appendix
