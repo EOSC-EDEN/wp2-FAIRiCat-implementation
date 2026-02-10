@@ -229,11 +229,11 @@ mkdir -p .well-known/api-catalog
 touch .well-known/api-catalog/index.json
 ```
 
-Now there is an `index.json` file, but it is empty. Copy the JSON that you have prepared before int the file or just copy the whole file, whatever works for you.
+Now there is an `index.json` file, but it is empty. Copy the JSON that you have prepared before into the file or just copy the whole file, whatever works for you.
 
-This file is then servers as `application/json` at the relative URL `/.well-known/api-catalog/index.json`
+This file is then served as `application/json` at the relative URL `/.well-known/api-catalog/index.json`
 
-This is not enough for FAIRiCat support, the Apache configuration needs to be changed. 
+This is not enough for FAIRiCat support, the Apache configuration also needs to be changed. 
 When you have found the configuration file for Apache httpd this needs to be edited and the httpd service must be restarted for the changes to take effect. With our setup it is in one of the `*.conf` files in `/etc/httpd/conf.d/`  directory. 
 
 ```
@@ -248,6 +248,19 @@ When you have found the configuration file for Apache httpd this needs to be edi
          </Files>
       </Directory>
 ```
+
+Restart the httpd service, optionally test it first. 
+
+```
+apachectl configtest
+```
+
+When correct, otherwise fix it first. 
+
+```
+systemctl restart httpd
+```
+
 
 ### Configuration explanation
 
