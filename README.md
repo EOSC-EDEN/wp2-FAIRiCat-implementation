@@ -205,7 +205,7 @@ To make that JSON available the server must be configured. This appendix tries t
 
 ## Automated (ansible) configuration
 
-As an example the template file (Jinja2) and Ansible code fragments that we use to deploy it. 
+As an example the template file (Jinja2) and Ansible code fragments that we use to deploy it are provided. 
 The main ansible task is in file `main.yml` and the template in `index.json.j2`. 
 Note that we also have the variable `shared_hostname` defined for each of our archives. For our Social Sciences and Humanities (SSH) archive this hostname is `ssh.datastations.nl`. 
 
@@ -216,8 +216,8 @@ __NOTE__ at the time of writing FAIRiCat support is not in production yet!
 
 ## Configuration details
 
-For those that are not familiar with Ansible code or want to try out some implementation directly, on  the commandline. 
-The next description assumes you have access (and permissions) to the web server with your archival system on it. 
+For those that are not familiar with Ansible code or want to try out some implementation directly, this section provides information on how to use the commandline. 
+The next description, therefore, assumes you have access (and permissions) to the web server with your archival system on it. 
 
 The Apache httpd service that we use on our archival system (with Dataverse and Payara) has a web root directory from where it will serve web content. Any HTML file placed there can in principle be made available via the web service. 
 For getting the 'well known uri' approach working we create a directory with a SON file in it. 
